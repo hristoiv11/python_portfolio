@@ -36,15 +36,17 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "3000:3000"  # 🔥 Changed from 5173 to 3000
+      - "3000:3000"
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./frontend:/app  # ✅ Mount local frontend directory into the container
+      - /app/node_modules  # ✅ Prevent overwriting node_modules
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_USEPOLLING=true  # ✅ Enables file watching inside Docker
+      - WATCHPACK_POLLING=true  # ✅ Fixes issues with Webpack dev server
     command: yarn start
     depends_on:
       - backend
+
 
 volumes:
   mongo_data:
